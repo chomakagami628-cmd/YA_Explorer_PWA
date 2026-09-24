@@ -20,10 +20,10 @@
     </header>
 
     <section class="card">
-      <label for="auctionUrl">Yahoo!オークションの商品URL</label>
+      <label for="auctionUrl">Yahoo!オークションの商品ID</label>
       <div class="input-row">
-        <input id="auctionUrl" type="url" inputmode="url" autocomplete="url"
-          placeholder="https://auctions.yahoo.co.jp/jp/auction/…">
+        <input id="auctionUrl" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false"
+          placeholder="例：g1245260346">
         <button id="pasteButton" class="sub" type="button">貼り付け</button>
       </div>
       <button id="runButton" class="primary" type="button">JSONを取得してコピー</button>

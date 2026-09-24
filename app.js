@@ -15,7 +15,7 @@ async function copyText(text){
 
 $("pasteButton").addEventListener("click",async()=>{
   try{urlInput.value=(await navigator.clipboard.readText()).trim();setStatus("");}
-  catch(_){setStatus("入力欄を長押ししてURLを貼り付けてください","error");}
+  catch(_){setStatus("入力欄を長押しして商品IDを貼り付けてください","error");}
 });
 
 $("saveButton").addEventListener("click",()=>{
@@ -33,10 +33,13 @@ $("copyButton").addEventListener("click",async()=>{
 });
 
 runButton.addEventListener("click",async()=>{
-  const auctionUrl=urlInput.value.trim();
+  const entered=urlInput.value.trim();
+  // Accept an auction ID directly; retain compatibility with existing full URLs.
+  const match=entered.match(/^([A-Za-z0-9_-]+)$/) || entered.match(/^https:\/\/auctions\.yahoo\.co\.jp\/jp\/auction\/([A-Za-z0-9_-]+)(?:[?#].*)?$/);
+  const auctionUrl=match?`https://auctions.yahoo.co.jp/jp/auction/${match[1]}`:"";
   const apiUrl=(localStorage.getItem("yaExplorerApiUrl")||apiInput.value).trim();
-  if(!/^https:\/\/auctions\.yahoo\.co\.jp\/jp\/auction\/[A-Za-z0-9_-]+(?:[?#].*)?$/.test(auctionUrl)){
-    setStatus("Yahoo!オークションの商品URLを入力してください","error");return;
+  if(!match){
+    setStatus("Yahoo!オークションの商品IDを入力してください","error");return;
   }
   if(!apiUrl){setStatus("先に「初回設定」でApps Script URLを保存してください","error");$("setupCard").querySelector("details").open=true;return;}
 
